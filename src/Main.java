@@ -1,6 +1,15 @@
+import java.io.File;
+
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        try {
+            File file = new File("input.txt");
+            if (file.isFile())
+                System.out.println(file.length());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }
