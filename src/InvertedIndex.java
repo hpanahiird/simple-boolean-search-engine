@@ -17,7 +17,7 @@ public class InvertedIndex {
         String normalized = document.toLowerCase();
 
         //split document tokens by space
-        String[] splited = normalized.split(" ");
+        String[] splited = normalized.split("[ ,.]+");
 
         //first element of each line is document id
         String docId = splited[0];
@@ -35,7 +35,6 @@ public class InvertedIndex {
             }
         }
 
-        System.out.println(docId + ":" + tokens.length);
     }
 
     private void addNewTerm(String term, String docId) {
@@ -46,6 +45,7 @@ public class InvertedIndex {
     }
 
     void print() {
+        System.out.println("inverted index:");
         for (int i = 0; i < dictionary.size(); i++) {
             System.out.println(dictionary.get(i)+":"+postings.get(i).toString());
         }

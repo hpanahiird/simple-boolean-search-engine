@@ -11,7 +11,6 @@ public class Main {
                 String line;
                 while ((line = bufferedReader.readLine()) != null){
                     invertedIndex.indexDocument(line);
-                    System.out.println(line);
                 }
                 invertedIndex.print();
             }
