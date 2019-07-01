@@ -13,6 +13,7 @@ public class Main {
                     invertedIndex.indexDocument(line);
                     System.out.println(line);
                 }
+                invertedIndex.print();
             }
         } catch (Exception e) {
             e.printStackTrace();
