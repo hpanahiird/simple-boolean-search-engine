@@ -90,6 +90,13 @@ class QueryExecutor {
 
     private ArrayList<String> or(ArrayList<String> operand1, ArrayList<String> operand2){
         ArrayList<String> result = new ArrayList<>();
+        result.addAll(operand1);
+        for (int i = 0; i < operand2.size(); i++) {
+            String current = operand2.get(i);
+            if (!result.contains(current)){
+                result.add(current);
+            }
+        }
         return result;
     }
 
