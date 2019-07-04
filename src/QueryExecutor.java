@@ -5,23 +5,24 @@ import java.util.Stack;
 
 class QueryExecutor {
     private InvertedIndex invertedIndex;
-    private Stack<ArrayList<String>> postingOperands;
+//    private Stack<ArrayList<String>> postingOperands;
+    private ArrayList<String> postfix;
+    String[] op = {"AND", "OR", "(", ")"};
+    List<String> operators = Arrays.asList(op);
 
     QueryExecutor(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
-        postingOperands = new Stack<>();
+//        postingOperands = new Stack<>();
     }
 
     void execute(String query) {
         parseQuery(query);
         runQuery();
-        System.out.println(query);
+//        System.out.println(query);
     }
 
     private void parseQuery(String query) {
         List<String> infix = new ArrayList<>();
-        String[] op = {"AND", "OR", "(", ")"};
-        List<String> operators = Arrays.asList(op);
         infix.addAll(Arrays.asList(query.split("[\\s]+")));
         for (int i = infix.size() - 1; i >= 0; i--) {
             List<String> list = Arrays.asList(infix.get(i).split("((?<=\\()|(?=\\())|((?<=\\))|(?=\\)))"));
@@ -29,7 +30,7 @@ class QueryExecutor {
             infix.addAll(i, list);
         }
         Stack<String> stack = new Stack<>();
-        ArrayList<String> postfix = new ArrayList<>();
+        postfix = new ArrayList<>();
         for (int i = 0; i < infix.size(); i++) {
             String current = infix.get(i);
             if (!operators.contains(current)) {
@@ -65,22 +66,35 @@ class QueryExecutor {
             postfix.add(stack.pop());
         }
         System.out.println(postfix);
-        postingOperands.push(invertedIndex.getPostingFor(infix.get(0)));
+//        postingOperands.push(invertedIndex.getPostingFor(infix.get(0)));
 //        ArrayList result = invertedIndex.getPostingFor(infix.get(0));
 //        System.out.println(result);
 //        System.out.println(Arrays.toString(query.split("((?<=\\()|(?=\\())|( )|((?<=\\))|(?=\\)))")));
     }
 
     private void runQuery() {
+        Stack<ArrayList<String>> postingOperands = new Stack<>();
+        for (int i = 0; i < postfix.size(); i++) {
+            String current = postfix.get(i);
+            if (!operators.contains(current)){
+                postingOperands.push(invertedIndex.getPostingFor(current));
+            }else if (current.equals("AND")){
+                postingOperands.push(and(postingOperands.pop(),postingOperands.pop()));
+            }else if (current.equals("OR")){
+                postingOperands.push(or(postingOperands.pop(),postingOperands.pop()));
+            }
+        }
         ArrayList result = postingOperands.pop();
         System.out.println(result);
     }
 
-    private void or(ArrayList<String> operand1, ArrayList<String> operand2){
-
+    private ArrayList<String> or(ArrayList<String> operand1, ArrayList<String> operand2){
+        ArrayList<String> result = new ArrayList<>();
+        return result;
     }
 
-    private void and(ArrayList<String> operand1, ArrayList<String> operand2){
-
+    private ArrayList<String> and(ArrayList<String> operand1, ArrayList<String> operand2){
+        ArrayList<String> result = new ArrayList<>();
+        return result;
     }
 }
