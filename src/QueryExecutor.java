@@ -75,4 +75,12 @@ class QueryExecutor {
         ArrayList result = postingOperands.pop();
         System.out.println(result);
     }
+
+    private void or(ArrayList<String> operand1, ArrayList<String> operand2){
+
+    }
+
+    private void and(ArrayList<String> operand1, ArrayList<String> operand2){
+
+    }
 }
