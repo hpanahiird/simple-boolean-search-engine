@@ -95,6 +95,12 @@ class QueryExecutor {
 
     private ArrayList<String> and(ArrayList<String> operand1, ArrayList<String> operand2){
         ArrayList<String> result = new ArrayList<>();
+        for (int i = 0; i < operand1.size(); i++) {
+            String current = operand1.get(i);
+            if (operand2.contains(current)){
+                result.add(current);
+            }
+        }
         return result;
     }
 }
