@@ -1,7 +1,7 @@
-public class QueryExecutor {
-    InvertedIndex invertedIndex;
+class QueryExecutor {
+    private InvertedIndex invertedIndex;
 
-    public QueryExecutor(InvertedIndex invertedIndex) {
+    QueryExecutor(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
     }
 

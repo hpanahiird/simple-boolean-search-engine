@@ -2,11 +2,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class InvertedIndex {
+class InvertedIndex {
     private List<String> dictionary;//my dictionary
     private List<List<String>> postings;//my postings
 
-    public InvertedIndex() {
+    InvertedIndex() {
         dictionary = new ArrayList<>();
         postings = new ArrayList<>();
     }
