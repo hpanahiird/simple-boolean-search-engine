@@ -4,7 +4,7 @@ import java.util.List;
 
 class InvertedIndex {
     private List<String> dictionary;//my dictionary
-    private List<List<String>> postings;//my postings
+    private List<ArrayList<String>> postings;//my postings
 
     InvertedIndex() {
         dictionary = new ArrayList<>();
@@ -40,7 +40,7 @@ class InvertedIndex {
 
     private void addNewTerm(String term, String docId) {
         dictionary.add(term);
-        List<String> posting = new ArrayList<>();
+        ArrayList<String> posting = new ArrayList<>();
         posting.add(docId);
         postings.add(posting);
     }
@@ -48,7 +48,15 @@ class InvertedIndex {
     void print() {
         System.out.println("inverted index:");
         for (int i = 0; i < dictionary.size(); i++) {
-            System.out.println(dictionary.get(i)+":"+postings.get(i).toString());
+            System.out.println(dictionary.get(i) + ":" + postings.get(i).toString());
         }
+    }
+
+    ArrayList<String> getPostingFor(String term) {
+        int index = dictionary.indexOf(term);
+        if (index >= 0)
+            return postings.get(index);
+        else
+            return new ArrayList<>();
     }
 }
