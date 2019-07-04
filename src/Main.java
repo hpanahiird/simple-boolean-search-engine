@@ -18,11 +18,12 @@ public class Main {
             System.out.println("Welcome to Simple Boolean Search Engine!");
             System.out.println("please enter your query and hit enter to start search.");
             System.out.println("to exit just type \"exit!!\" and hit enter.");
+            QueryExecutor executor = new QueryExecutor(invertedIndex);
             Scanner scanner = new Scanner(System.in);
             System.out.print("Query: ");
             String query = scanner.nextLine();
             while (!"exit!!".equals(query)){
-                System.out.println(query);
+                executor.execute(query);
                 System.out.print("Query: ");
                 query = scanner.nextLine();
             }
