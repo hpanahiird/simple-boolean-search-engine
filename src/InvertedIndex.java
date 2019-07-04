@@ -29,7 +29,8 @@ public class InvertedIndex {
                 tokens) {
             int index = dictionary.indexOf(token);
             if (index != -1) {
-                postings.get(index).add(docId);
+                if (!postings.get(index).contains(docId))
+                    postings.get(index).add(docId);
             } else {
                 addNewTerm(token, docId);
             }
