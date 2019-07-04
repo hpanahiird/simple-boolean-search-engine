@@ -5,20 +5,17 @@ import java.util.Stack;
 
 class QueryExecutor {
     private InvertedIndex invertedIndex;
-//    private Stack<ArrayList<String>> postingOperands;
     private ArrayList<String> postfix;
-    String[] op = {"AND", "OR", "(", ")"};
-    List<String> operators = Arrays.asList(op);
+    private String[] op = {"AND", "OR", "(", ")"};
+    private List<String> operators = Arrays.asList(op);
 
     QueryExecutor(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
-//        postingOperands = new Stack<>();
     }
 
     void execute(String query) {
         parseQuery(query);
         runQuery();
-//        System.out.println(query);
     }
 
     private void parseQuery(String query) {
@@ -48,13 +45,6 @@ class QueryExecutor {
                     stack.pop();
             } else // an operator is encountered
             {
-//                while (!stack.isEmpty()) {
-//                    if (stack.peek().equals("(")) {
-////                        return "Invalid Expression";
-//                        System.out.println("Invalid Expression2");
-//                    }
-//                    postfix.add(stack.pop());
-//                }
                 stack.push(current);
             }
         }
@@ -66,10 +56,6 @@ class QueryExecutor {
             postfix.add(stack.pop());
         }
         System.out.println(postfix);
-//        postingOperands.push(invertedIndex.getPostingFor(infix.get(0)));
-//        ArrayList result = invertedIndex.getPostingFor(infix.get(0));
-//        System.out.println(result);
-//        System.out.println(Arrays.toString(query.split("((?<=\\()|(?=\\())|( )|((?<=\\))|(?=\\)))")));
     }
 
     private void runQuery() {
