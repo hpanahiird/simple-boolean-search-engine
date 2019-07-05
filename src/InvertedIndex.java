@@ -55,7 +55,7 @@ class InvertedIndex {
             PostingList current = postings.get(i);
             System.out.print(dictionary.get(i) + ": [");
             for (int j = 0; j < current.size(); j++) {
-                System.out.print("<"+current.get(j).getDocId()+":"+current.get(j).getFrequency()+">,");
+                System.out.print("<"+current.get(j).getDocId()+":"+current.get(j).getTfw()+">,");
             }
             System.out.println("]");
         }
