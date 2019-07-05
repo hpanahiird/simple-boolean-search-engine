@@ -4,7 +4,7 @@ import java.util.List;
 
 class InvertedIndex {
     private List<String> dictionary;//my dictionary
-    private List<ArrayList<String>> postings;//my postings
+    private List<PostingList> postings;//my postings
 
     InvertedIndex() {
         dictionary = new ArrayList<>();
@@ -29,8 +29,12 @@ class InvertedIndex {
                 tokens) {
             int index = dictionary.indexOf(token);
             if (index != -1) {
-                if (!postings.get(index).contains(docId))
-                    postings.get(index).add(docId);
+                int documentIndex = postings.get(index).indexOf(docId);
+                if (documentIndex < 0)
+                    postings.get(index).add(new DocumentInfo(docId));
+                else
+                    postings.get(index).get(documentIndex).occured();
+
             } else {
                 addNewTerm(token, docId);
             }
@@ -40,23 +44,28 @@ class InvertedIndex {
 
     private void addNewTerm(String term, String docId) {
         dictionary.add(term);
-        ArrayList<String> posting = new ArrayList<>();
-        posting.add(docId);
+        PostingList posting = new PostingList();
+        posting.add(new DocumentInfo(docId));
         postings.add(posting);
     }
 
     void print() {
         System.out.println("inverted index:");
         for (int i = 0; i < dictionary.size(); i++) {
-            System.out.println(dictionary.get(i) + ":" + postings.get(i).toString());
+            PostingList current = postings.get(i);
+            System.out.print(dictionary.get(i) + ": [");
+            for (int j = 0; j < current.size(); j++) {
+                System.out.print("<"+current.get(j).getDocId()+":"+current.get(j).getFrequency()+">,");
+            }
+            System.out.println("]");
         }
     }
 
-    ArrayList<String> getPostingFor(String term) {
+    PostingList getPostingFor(String term) {
         int index = dictionary.indexOf(term);
         if (index >= 0)
             return postings.get(index);
         else
-            return new ArrayList<>();
+            return new PostingList();
     }
 }

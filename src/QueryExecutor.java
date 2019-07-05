@@ -59,7 +59,7 @@ class QueryExecutor {
     }
 
     private void runQuery() {
-        Stack<ArrayList<String>> postingOperands = new Stack<>();
+        Stack<PostingList> postingOperands = new Stack<>();
         for (int i = 0; i < postfix.size(); i++) {
             String current = postfix.get(i);
             if (!operators.contains(current)){
@@ -74,11 +74,11 @@ class QueryExecutor {
         System.out.println(result);
     }
 
-    private ArrayList<String> or(ArrayList<String> operand1, ArrayList<String> operand2){
-        ArrayList<String> result = new ArrayList<>();
+    private PostingList or(PostingList operand1, PostingList operand2){
+        PostingList result = new PostingList();
         result.addAll(operand1);
         for (int i = 0; i < operand2.size(); i++) {
-            String current = operand2.get(i);
+            DocumentInfo current = operand2.get(i);
             if (!result.contains(current)){
                 result.add(current);
             }
@@ -86,10 +86,10 @@ class QueryExecutor {
         return result;
     }
 
-    private ArrayList<String> and(ArrayList<String> operand1, ArrayList<String> operand2){
-        ArrayList<String> result = new ArrayList<>();
+    private PostingList and(PostingList operand1, PostingList operand2){
+        PostingList result = new PostingList();
         for (int i = 0; i < operand1.size(); i++) {
-            String current = operand1.get(i);
+            DocumentInfo current = operand1.get(i);
             if (operand2.contains(current)){
                 result.add(current);
             }
