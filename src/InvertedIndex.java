@@ -6,9 +6,15 @@ class InvertedIndex {
     private TermList dictionary;//my dictionary
     private List<PostingList> postings;//my postings
 
+    static int N=0;
+
     InvertedIndex() {
         dictionary = new TermList();
         postings = new ArrayList<>();
+    }
+
+    static void setN(int n) {
+        N = n;
     }
 
     void indexDocument(String document) {
@@ -55,7 +61,7 @@ class InvertedIndex {
         System.out.println("inverted index:");
         for (int i = 0; i < dictionary.size(); i++) {
             PostingList current = postings.get(i);
-            System.out.print("<"+dictionary.get(i).getTerm()+":"+dictionary.get(i).getDocumentFrequency() + ">: [");
+            System.out.print("<"+dictionary.get(i).getTerm()+":"+dictionary.get(i).getIdf() + ">: [");
             for (int j = 0; j < current.size(); j++) {
                 System.out.print("<"+current.get(j).getDocId()+":"+current.get(j).getTfw()+">,");
             }

@@ -1,17 +1,24 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         InvertedIndex invertedIndex = new InvertedIndex();
+        ArrayList<String> documents= new ArrayList<>();
         try {
             File file = new File("input.txt");
             if (file.isFile()) {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                 String line;
                 while ((line = bufferedReader.readLine()) != null){
-                    invertedIndex.indexDocument(line);
+                    documents.add(line);
+//                    invertedIndex.indexDocument(line);
+                }
+                for (int i = 0; i < documents.size(); i++) {
+                    InvertedIndex.setN(documents.size());
+                    invertedIndex.indexDocument(documents.get(i));
                 }
                 invertedIndex.print();
             }
