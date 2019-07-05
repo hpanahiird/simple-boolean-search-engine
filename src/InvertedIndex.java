@@ -3,11 +3,11 @@ import java.util.Arrays;
 import java.util.List;
 
 class InvertedIndex {
-    private List<String> dictionary;//my dictionary
+    private TermList dictionary;//my dictionary
     private List<PostingList> postings;//my postings
 
     InvertedIndex() {
-        dictionary = new ArrayList<>();
+        dictionary = new TermList();
         postings = new ArrayList<>();
     }
 
@@ -30,8 +30,10 @@ class InvertedIndex {
             int index = dictionary.indexOf(token);
             if (index != -1) {
                 int documentIndex = postings.get(index).indexOf(docId);
-                if (documentIndex < 0)
+                if (documentIndex < 0) {
                     postings.get(index).add(new DocumentInfo(docId));
+                    dictionary.get(index).increment();
+                }
                 else
                     postings.get(index).get(documentIndex).occured();
 
@@ -43,7 +45,7 @@ class InvertedIndex {
     }
 
     private void addNewTerm(String term, String docId) {
-        dictionary.add(term);
+        dictionary.add(new TermInfo(term));
         PostingList posting = new PostingList();
         posting.add(new DocumentInfo(docId));
         postings.add(posting);
@@ -53,7 +55,7 @@ class InvertedIndex {
         System.out.println("inverted index:");
         for (int i = 0; i < dictionary.size(); i++) {
             PostingList current = postings.get(i);
-            System.out.print(dictionary.get(i) + ": [");
+            System.out.print("<"+dictionary.get(i).getTerm()+":"+dictionary.get(i).getDocumentFrequency() + ">: [");
             for (int j = 0; j < current.size(); j++) {
                 System.out.print("<"+current.get(j).getDocId()+":"+current.get(j).getTfw()+">,");
             }
