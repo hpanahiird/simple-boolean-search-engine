@@ -6,21 +6,24 @@ public class Main {
 
     public static void main(String[] args) {
         InvertedIndex invertedIndex = new InvertedIndex();
-        ArrayList<String> documents= new ArrayList<>();
+        ArrayList<String> documents = new ArrayList<>();
         try {
             File file = new File("input.txt");
             if (file.isFile()) {
                 BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
                 String line;
-                while ((line = bufferedReader.readLine()) != null){
+                while ((line = bufferedReader.readLine()) != null) {
                     documents.add(line);
 //                    invertedIndex.indexDocument(line);
                 }
+                long indexStart = System.currentTimeMillis();
                 for (int i = 0; i < documents.size(); i++) {
                     InvertedIndex.setN(documents.size());
                     invertedIndex.indexDocument(documents.get(i));
                 }
+                long indexEnd = System.currentTimeMillis();
                 invertedIndex.print();
+                System.out.println("index in: " + (indexEnd - indexStart) + " milliseconds");
             }
             System.out.println("Welcome to Simple Boolean Search Engine!");
             System.out.println("please enter your query and hit enter to start search.");
@@ -29,7 +32,7 @@ public class Main {
             Scanner scanner = new Scanner(System.in);
             System.out.print("Query: ");
             String query = scanner.nextLine();
-            while (!"exit!!".equals(query)){
+            while (!"exit!!".equals(query)) {
                 executor.execute(query);
                 System.out.print("Query: ");
                 query = scanner.nextLine();

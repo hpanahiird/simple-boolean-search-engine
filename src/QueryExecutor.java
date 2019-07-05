@@ -14,8 +14,11 @@ class QueryExecutor {
     }
 
     void execute(String query) {
+        long queryStart = System.currentTimeMillis();
         parseQuery(query);
         runQuery();
+        long queryEnd = System.currentTimeMillis();
+        System.out.println("results in: " + (queryEnd - queryStart) + " milliseconds");
     }
 
     private void parseQuery(String query) {
@@ -62,35 +65,35 @@ class QueryExecutor {
         Stack<PostingList> postingOperands = new Stack<>();
         for (int i = 0; i < postfix.size(); i++) {
             String current = postfix.get(i);
-            if (!operators.contains(current)){
+            if (!operators.contains(current)) {
                 postingOperands.push(invertedIndex.getPostingFor(current));
-            }else if (current.equals("AND")){
-                postingOperands.push(and(postingOperands.pop(),postingOperands.pop()));
-            }else if (current.equals("OR")){
-                postingOperands.push(or(postingOperands.pop(),postingOperands.pop()));
+            } else if (current.equals("AND")) {
+                postingOperands.push(and(postingOperands.pop(), postingOperands.pop()));
+            } else if (current.equals("OR")) {
+                postingOperands.push(or(postingOperands.pop(), postingOperands.pop()));
             }
         }
         ArrayList result = postingOperands.pop();
         System.out.println(result);
     }
 
-    private PostingList or(PostingList operand1, PostingList operand2){
+    private PostingList or(PostingList operand1, PostingList operand2) {
         PostingList result = new PostingList();
         result.addAll(operand1);
         for (int i = 0; i < operand2.size(); i++) {
             DocumentInfo current = operand2.get(i);
-            if (!result.contains(current)){
+            if (!result.contains(current)) {
                 result.add(current);
             }
         }
         return result;
     }
 
-    private PostingList and(PostingList operand1, PostingList operand2){
+    private PostingList and(PostingList operand1, PostingList operand2) {
         PostingList result = new PostingList();
         for (int i = 0; i < operand1.size(); i++) {
             DocumentInfo current = operand1.get(i);
-            if (operand2.contains(current)){
+            if (operand2.contains(current)) {
                 result.add(current);
             }
         }
