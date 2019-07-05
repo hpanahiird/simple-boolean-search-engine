@@ -82,7 +82,7 @@ class QueryExecutor {
         result.addAll(operand1);
         for (int i = 0; i < operand2.size(); i++) {
             DocumentInfo current = operand2.get(i);
-            if (!result.contains(current)) {
+            if (!result.contains(current.getDocId())) {
                 result.add(current);
             }
         }
@@ -93,7 +93,7 @@ class QueryExecutor {
         PostingList result = new PostingList();
         for (int i = 0; i < operand1.size(); i++) {
             DocumentInfo current = operand1.get(i);
-            if (operand2.contains(current)) {
+            if (operand2.contains(current.getDocId())) {
                 result.add(current);
             }
         }
