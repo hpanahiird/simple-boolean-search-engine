@@ -102,4 +102,12 @@ class InvertedIndex {
             idf = 0;
         return idf;
     }
+
+    double getDocumentSize(String docId){
+        double result = 0;
+        for (int i = 0; i < dictionary.size(); i++) {
+            result += Math.pow(get_tf_idf(dictionary.get(i).getTerm(), docId),2);
+        }
+        return Math.sqrt(result);
+    }
 }

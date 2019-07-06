@@ -106,7 +106,7 @@ class QueryExecutor {
 
     private HashMap<String, Double> kk = new HashMap<>();
 
-    void calculate_query_tf_idf() {
+    private void calculate_query_tf_idf() {
         kk = new HashMap<>();
         for (int i = 0; i < queryTokens.size(); i++) {
             String current = queryTokens.get(i);
@@ -116,17 +116,19 @@ class QueryExecutor {
         System.out.println("query tokens: " + kk);
     }
 
-    HashMap<String, Double> documentCosine;
-    void calculateCosines() {
+    private HashMap<String, Double> documentCosine;
+    private void calculateCosines() {
         documentCosine = new HashMap<>();
         for (int i = 0; i < queryResult.size(); i++) {
-            documentCosine.put(queryResult.get(i).getDocId(), cosine(queryResult.get(i).getDocId()));
+            double a = cosine(queryResult.get(i).getDocId());
+            double b = invertedIndex.getDocumentSize(queryResult.get(i).getDocId());
+            documentCosine.put(queryResult.get(i).getDocId(), a/b );
         }
 
         System.out.println(documentCosine);
     }
 
-    double cosine(String docId) {
+    private double cosine(String docId) {
         double result = 0;
 
         for (String key : kk.keySet()) {
@@ -139,7 +141,7 @@ class QueryExecutor {
         return result;
     }
 
-    int query_tf(String token) {
+    private int query_tf(String token) {
         int c = 0;
         for (int i = 0; i < queryTokens.size(); i++) {
             if (queryTokens.get(i).equals(token))

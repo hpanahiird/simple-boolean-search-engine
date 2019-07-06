@@ -1,4 +1,4 @@
-Doc1 breakthrough drug for schizophrenia drug
-Doc2 new approach for treatment of schizophrenia schizophrenia
-Doc3 new hopes for schizophrenia patients
-Doc4 new        .........,,,,,,,schizophrenia drug
+Doc1 Information Retrieval Systems
+Doc2 Information Storage
+Doc3 Digital Speech Synthesis Systems
+Doc4 Speech Filtering, Speech Retrieval
