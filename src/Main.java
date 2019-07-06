@@ -26,7 +26,7 @@ public class Main {
                 System.out.println("index in: " + (indexEnd - indexStart) + " milliseconds");
             }
 
-            System.out.println(invertedIndex.get_tf_idf("of","doc2"));
+            System.out.println(invertedIndex.get_tf_idf("off","doc2"));
             System.out.println("Welcome to Simple Boolean Search Engine!");
             System.out.println("please enter your query and hit enter to start search.");
             System.out.println("to exit just type \"exit!!\" and hit enter.");

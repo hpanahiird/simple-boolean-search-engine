@@ -6,7 +6,7 @@ class InvertedIndex {
     private TermList dictionary;//my dictionary
     private List<PostingList> postings;//my postings
 
-    static int N=0;
+    static int N = 0;
 
     InvertedIndex() {
         dictionary = new TermList();
@@ -39,8 +39,7 @@ class InvertedIndex {
                 if (documentIndex < 0) {
                     postings.get(index).add(new DocumentInfo(docId));
                     dictionary.get(index).increment();
-                }
-                else
+                } else
                     postings.get(index).get(documentIndex).occured();
 
             } else {
@@ -61,9 +60,9 @@ class InvertedIndex {
         System.out.println("inverted index:");
         for (int i = 0; i < dictionary.size(); i++) {
             PostingList current = postings.get(i);
-            System.out.print("<"+dictionary.get(i).getTerm()+":"+dictionary.get(i).getIdf() + ">: [");
+            System.out.print("<" + dictionary.get(i).getTerm() + ":" + dictionary.get(i).getIdf() + ">: [");
             for (int j = 0; j < current.size(); j++) {
-                System.out.print("<"+current.get(j).getDocId()+":"+current.get(j).getTfw()+">,");
+                System.out.print("<" + current.get(j).getDocId() + ":" + current.get(j).getTfw() + ">,");
             }
             System.out.println("]");
         }
@@ -77,12 +76,16 @@ class InvertedIndex {
             return new PostingList();
     }
 
-    double get_tf_idf(String term, String docId){
+    double get_tf_idf(String term, String docId) {
         double tf_idf;
         int termIndex = dictionary.indexOf(term);
+        if (termIndex < 0)
+            return 0;
         TermInfo termInfo = dictionary.get(termIndex);
         PostingList postingList = postings.get(termIndex);
         int documentIndex = postingList.indexOf(docId);
+        if (documentIndex < 0)
+            return 0;
         DocumentInfo documentInfo = postingList.get(documentIndex);
 
         tf_idf = documentInfo.getTfw() * termInfo.getIdf();
