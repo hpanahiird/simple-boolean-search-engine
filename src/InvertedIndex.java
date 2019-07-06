@@ -92,4 +92,14 @@ class InvertedIndex {
 
         return tf_idf;
     }
+
+    double getTermIdf(String term) {
+        double idf;
+        int index = dictionary.indexOf(term);
+        if (index >= 0)
+            idf = dictionary.get(index).getIdf();
+        else
+            idf = 0;
+        return idf;
+    }
 }

@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 class QueryExecutor {
     private InvertedIndex invertedIndex;
@@ -18,7 +15,7 @@ class QueryExecutor {
         long queryStart = System.currentTimeMillis();
         parseQuery(query);
         runQuery();
-        calculate_query_tfw();
+        calculate_query_tf_idf();
         long queryEnd = System.currentTimeMillis();
         System.out.println("results in: " + (queryEnd - queryStart) + " milliseconds");
     }
@@ -105,7 +102,24 @@ class QueryExecutor {
         return result;
     }
 
-    void calculate_query_tfw() {
-        System.out.println("query tokens: " + queryTokens);
+    HashMap<String, Double> kk = new HashMap<>();
+
+    void calculate_query_tf_idf() {
+        kk = new HashMap<>();
+        for (int i = 0; i < queryTokens.size(); i++) {
+            String current = queryTokens.get(i);
+            double tfw = Math.log10(query_tf(current)) + 1;
+            kk.put(current,tfw * invertedIndex.getTermIdf(current));
+        }
+        System.out.println("query tokens: " + kk);
+    }
+
+    int query_tf(String token) {
+        int c = 0;
+        for (int i = 0; i < queryTokens.size(); i++) {
+            if (queryTokens.get(i).equals(token))
+                c++;
+        }
+        return c;
     }
 }
