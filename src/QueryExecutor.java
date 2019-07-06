@@ -8,6 +8,7 @@ class QueryExecutor {
     private ArrayList<String> postfix;
     private String[] op = {"AND", "OR", "(", ")"};
     private List<String> operators = Arrays.asList(op);
+    private List<String> queryTokens = new ArrayList<>();
 
     QueryExecutor(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
@@ -17,6 +18,7 @@ class QueryExecutor {
         long queryStart = System.currentTimeMillis();
         parseQuery(query);
         runQuery();
+        calculate_query_tfw();
         long queryEnd = System.currentTimeMillis();
         System.out.println("results in: " + (queryEnd - queryStart) + " milliseconds");
     }
@@ -30,10 +32,13 @@ class QueryExecutor {
             infix.addAll(i, list);
         }
         Stack<String> stack = new Stack<>();
+        System.out.println("infix: " + infix);
         postfix = new ArrayList<>();
+        queryTokens = new ArrayList<>();
         for (int i = 0; i < infix.size(); i++) {
             String current = infix.get(i);
             if (!operators.contains(current)) {
+                queryTokens.add(current);
                 postfix.add(current);
             } else if (current.equals("(")) {
                 stack.push(current);
@@ -98,5 +103,9 @@ class QueryExecutor {
             }
         }
         return result;
+    }
+
+    void calculate_query_tfw() {
+        System.out.println("query tokens: " + queryTokens);
     }
 }
