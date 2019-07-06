@@ -6,6 +6,7 @@ class QueryExecutor {
     private String[] op = {"AND", "OR", "(", ")"};
     private List<String> operators = Arrays.asList(op);
     private List<String> queryTokens = new ArrayList<>();
+    private PostingList queryResult;
 
     QueryExecutor(InvertedIndex invertedIndex) {
         this.invertedIndex = invertedIndex;
@@ -16,6 +17,7 @@ class QueryExecutor {
         parseQuery(query);
         runQuery();
         calculate_query_tf_idf();
+        calculateCosines();
         long queryEnd = System.currentTimeMillis();
         System.out.println("results in: " + (queryEnd - queryStart) + " milliseconds");
     }
@@ -75,8 +77,8 @@ class QueryExecutor {
                 postingOperands.push(or(postingOperands.pop(), postingOperands.pop()));
             }
         }
-        ArrayList result = postingOperands.pop();
-        System.out.println(result);
+        queryResult = postingOperands.pop();
+        System.out.println(queryResult);
     }
 
     private PostingList or(PostingList operand1, PostingList operand2) {
@@ -102,16 +104,39 @@ class QueryExecutor {
         return result;
     }
 
-    HashMap<String, Double> kk = new HashMap<>();
+    private HashMap<String, Double> kk = new HashMap<>();
 
     void calculate_query_tf_idf() {
         kk = new HashMap<>();
         for (int i = 0; i < queryTokens.size(); i++) {
             String current = queryTokens.get(i);
             double tfw = Math.log10(query_tf(current)) + 1;
-            kk.put(current,tfw * invertedIndex.getTermIdf(current));
+            kk.put(current, tfw * invertedIndex.getTermIdf(current));
         }
         System.out.println("query tokens: " + kk);
+    }
+
+    HashMap<String, Double> documentCosine;
+    void calculateCosines() {
+        documentCosine = new HashMap<>();
+        for (int i = 0; i < queryResult.size(); i++) {
+            documentCosine.put(queryResult.get(i).getDocId(), cosine(queryResult.get(i).getDocId()));
+        }
+
+        System.out.println(documentCosine);
+    }
+
+    double cosine(String docId) {
+        double result = 0;
+
+        for (String key : kk.keySet()) {
+            result += kk.get(key) * invertedIndex.get_tf_idf(key, docId);
+        }
+
+
+//        result =
+
+        return result;
     }
 
     int query_tf(String token) {
