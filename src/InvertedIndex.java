@@ -60,9 +60,9 @@ class InvertedIndex {
         System.out.println("inverted index:");
         for (int i = 0; i < dictionary.size(); i++) {
             PostingList current = postings.get(i);
-            System.out.print("<" + dictionary.get(i).getTerm() + ":" + dictionary.get(i).getIdf() + ">: [");
+            System.out.print("<" + dictionary.get(i).getTerm() + /*":" + dictionary.get(i).getIdf() +*/ ">: [");
             for (int j = 0; j < current.size(); j++) {
-                System.out.print("<" + current.get(j).getDocId() + ":" + current.get(j).getTfw() + ">,");
+                System.out.print("<" + current.get(j).getDocId() + /*":" + current.get(j).getTfw() +*/ ">,");
             }
             System.out.println("]");
         }

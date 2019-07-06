@@ -1,5 +1,8 @@
 import java.util.*;
 
+import static java.util.Map.Entry.comparingByValue;
+import static java.util.stream.Collectors.toMap;
+
 class QueryExecutor {
     private InvertedIndex invertedIndex;
     private ArrayList<String> postfix;
@@ -124,8 +127,14 @@ class QueryExecutor {
             double b = invertedIndex.getDocumentSize(queryResult.get(i).getDocId());
             documentCosine.put(queryResult.get(i).getDocId(), a/b );
         }
-
-        System.out.println(documentCosine);
+        HashMap<String, Double> sorted = documentCosine
+                .entrySet()
+                .stream()
+                .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+                .collect(
+                        toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
+                                LinkedHashMap::new));
+        System.out.println(sorted);
     }
 
     private double cosine(String docId) {
