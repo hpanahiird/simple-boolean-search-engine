@@ -76,4 +76,17 @@ class InvertedIndex {
         else
             return new PostingList();
     }
+
+    double get_tf_idf(String term, String docId){
+        double tf_idf;
+        int termIndex = dictionary.indexOf(term);
+        TermInfo termInfo = dictionary.get(termIndex);
+        PostingList postingList = postings.get(termIndex);
+        int documentIndex = postingList.indexOf(docId);
+        DocumentInfo documentInfo = postingList.get(documentIndex);
+
+        tf_idf = documentInfo.getTfw() * termInfo.getIdf();
+
+        return tf_idf;
+    }
 }

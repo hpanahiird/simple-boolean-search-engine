@@ -1,7 +1,7 @@
 class DocumentInfo {
     private String docId;
     private int frequency;
-    private double tfw = 0;
+    private double tfw;
 
     DocumentInfo(String docId) {
         this.docId = docId;
